@@ -29,6 +29,13 @@ async function run() {
     // Connect to the "sample_mflix" database and access its "movies" collection
     const database = client.db("travelEase_db");
     const productCollection = database.collection("allVehicles");
+    const usersCollection = database.collection("users")
+
+    app.post('/users', async(req, res)=>{
+        const newUser = req.body;
+        const result = await usersCollection.insertOne(newUser);
+        res.send(result);
+    })
 
     app.post('/allVehicles', async (req, res)=>{
         const newProduct = req.body;
@@ -37,7 +44,14 @@ async function run() {
     })
 
     app.get('/allVehicles', async (req, res)=>{
-        const cursor = productCollection.find()
+
+        const email = req.query.email
+        const query = {}
+        if(email){
+            query.email = email
+        }
+
+        const cursor = productCollection.find(query)
         const result = await cursor.toArray();
         res.send(result)
     })
