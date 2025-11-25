@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const port = process.env.PORT || 3000
 
@@ -33,6 +33,28 @@ async function run() {
     app.post('/allVehicles', async (req, res)=>{
         const newProduct = req.body;
         const result = await productCollection.insertOne(newProduct);
+        res.send(result)
+    })
+
+    app.patch('/allVehicles/:id', async(req, res)=>{
+        const id = req.params.id;
+        const updateProduct = req.body;
+        const query = { _id : new ObjectId(id)}
+        const update={
+            $set: {
+                name: updateProduct.name,
+                price: updateProduct.price
+            }
+        }
+            const result = await productCollection.updateOne(query, update);
+            res.send(result)
+
+    })
+
+    app.delete('/allVehicles/:id', async(req, res)=>{
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id)}
+        const result = await productCollection.deleteOne(query);
         res.send(result)
     })
     
