@@ -34,6 +34,7 @@ async function run() {
     //add vehicles
     app.post('/addVehicle', async(req, res)=>{
         const newUser = req.body;
+        newUser.createdAt = new Date(); 
         const result = await usersCollection.insertOne(newUser);
         res.send(result);
     })
@@ -44,6 +45,23 @@ async function run() {
         const result = await cursor.toArray();
         res.send(result)
     })
+
+    app.get('/latest-vehicles/:id', async (req, res)=>{
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id)}
+        const result = await productCollection.findOne(query);
+        res.send(result)
+    })
+
+    // app.get('/latest-vehicles/:id',async(req,res)=>{
+    //     // const cursor = productCollection.find().sort({createdAt: -1}).limit(6);
+    //     // const result = await cursor.toArray();
+    //     // res.send(result)
+    //     const id = req.params.id;
+    //     const query = { _id: new ObjectId(id)}
+    //     const result = await productCollection.findOne(query);
+    //     res.send(result)
+    // })
 
     //show all vehicles
     app.post('/allVehicles', async (req, res)=>{
@@ -69,6 +87,17 @@ async function run() {
         const id = req.params.id;
         const query = { _id: new ObjectId(id)}
         const result = await productCollection.findOne(query);
+        res.send(result)
+    })
+
+    app.put('/allVehicles/:id', async(req, res)=>{
+        const id = req.params.id;
+        const UpdatedData = req.body
+        const query = { _id: new ObjectId(id)}
+        const update = {
+            $set: UpdatedData
+        }
+        const result = await productCollection.updateOne(query, update);
         res.send(result)
     })
 
