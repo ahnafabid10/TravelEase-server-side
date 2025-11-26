@@ -77,6 +77,12 @@ async function run() {
       const result = await bookNowCollection.insertOne(bookNow)
       res.send(result)
     })
+    //book now by user
+    app.get('/bookNow', async (req, res)=>{
+     const email = req.query.email
+      const result = await bookNowCollection.find({bookerEmail : email}).toArray()
+res.send(result)
+    })
 
     app.get('/allVehicles', async (req, res)=>{
 
@@ -96,6 +102,13 @@ async function run() {
         const query = { _id: new ObjectId(id)}
         const result = await productCollection.findOne(query);
         res.send(result)
+    })
+
+    app.get('/myVehiclePage', async(req,res)=>{
+      const email = req.query.email
+      const result = await productCollection.find({
+currentUserEmail : email}).toArray()
+res.send(result)
     })
 
     app.put('/allVehicles/:id', async(req, res)=>{
