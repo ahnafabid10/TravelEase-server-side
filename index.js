@@ -30,6 +30,7 @@ async function run() {
     const database = client.db("travelEase_db");
     const productCollection = database.collection("allVehicles");
     const usersCollection = database.collection("addVehicle")
+    const bookNowCollection = database.collection("bookNow")
 
     //add vehicles
     app.post('/addVehicle', async(req, res)=>{
@@ -68,6 +69,13 @@ async function run() {
         const newProduct = req.body;
         const result = await productCollection.insertOne(newProduct);
         res.send(result)
+    })
+
+    //book now 
+    app.post('/bookNow', async (req, res)=>{
+      const bookNow = req.body;
+      const result = await bookNowCollection.insertOne(bookNow)
+      res.send(result)
     })
 
     app.get('/allVehicles', async (req, res)=>{
