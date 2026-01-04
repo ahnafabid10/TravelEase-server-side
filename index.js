@@ -45,7 +45,7 @@ async function run() {
 
     //latest vehicles
     app.get('/latest-vehicles',async(req,res)=>{
-        const cursor = productCollection.find().sort({createdAt: -1}).limit(6);
+        const cursor = productCollection.find().sort({createdAt: -1}).limit(8);
         const result = await cursor.toArray();
         res.send(result)
     })
