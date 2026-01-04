@@ -34,6 +34,10 @@ async function run() {
     const productCollection = database.collection("allVehicles");
     const usersCollection = database.collection("addVehicle")
     const bookNowCollection = database.collection("bookNow")
+    //user collection
+    const userCollection = database.collection('/users')
+
+    
 
     //add vehicles
     app.post('/addVehicle', async(req, res)=>{
@@ -92,7 +96,7 @@ res.send(result)
         const email = req.query.email
         const query = {}
         if(email){
-            query.email = email
+            query.currentUserEmail = email
         }
         const cursor = productCollection.find(query)
         const result = await cursor.toArray();
