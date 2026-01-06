@@ -35,9 +35,61 @@ async function run() {
     const usersCollection = database.collection("addVehicle")
     const bookNowCollection = database.collection("bookNow")
     //user collection
-    const userCollection = database.collection('/users')
+    const userCollection = database.collection('user')
 
-    
+    //user api
+    app.post('/user', async(req, res)=>{
+      const user = req.body
+      user.createdAt = new Date().toISOString()
+      const email = user.email;
+      const userExists = await userCollection.findOne({email});
+
+      if(userExists){
+        return res.send({massage: 'User already exists'})
+      }
+      const result = await userCollection.insertOne(user)
+      res.send(result)
+    })
+
+    // app.get('/user', async(req, res)=>{
+    //   const email = req.query.email
+    //     const query = {}
+    //     if(email){
+    //         query.currentUserEmail = email
+    //     }
+    //     const cursor = userCollection.find(query)
+    //     const result = await cursor.toArray();
+    //     res.send(result)
+
+    // })
+
+    app.get('/user', async(req, res)=>{
+  const email = req.query.email;
+  const result = await userCollection.find({ email }).toArray();
+  res.send(result);
+});
+
+    app.get('/user/:id', async (req, res)=>{
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id)}
+        const result = await userCollection.findOne(query);
+        res.send(result)
+    })
+app.patch('/user', async (req, res) => {
+  const email = req.query.email;
+  const { name, photo } = req.body;
+
+  const result = await userCollection.updateOne(
+    { email },
+    { $set: { name, photo } }
+  );
+
+  res.send(result);
+});
+
+
+
+
 
     //add vehicles
     app.post('/addVehicle', async(req, res)=>{
