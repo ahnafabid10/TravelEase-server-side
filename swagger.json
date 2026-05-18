@@ -1,21 +1,53 @@
 {
-  "openapi": "3.0.0",
+  "swagger": "2.0",
+
   "info": {
     "title": "Travel Ease API",
     "version": "1.0.0",
     "description": "Travel Ease Backend API Documentation"
   },
 
-  "servers": [
+  "host": "localhost:3000",
+
+  "basePath": "/",
+
+  "schemes": [
+    "http"
+  ],
+
+  "consumes": [
+    "application/json"
+  ],
+
+  "produces": [
+    "application/json"
+  ],
+
+  "tags": [
     {
-      "url": "http://localhost:3000"
+      "name": "Users",
+      "description": "User Management APIs"
+    },
+
+    {
+      "name": "Vehicles",
+      "description": "Vehicle Management APIs"
+    },
+
+    {
+      "name": "Bookings",
+      "description": "Booking Management APIs"
     }
   ],
 
   "paths": {
+
     "/": {
       "get": {
+        "tags": ["Home"],
+
         "summary": "Home Route",
+
         "responses": {
           "200": {
             "description": "Server running successfully"
@@ -25,35 +57,28 @@
     },
 
     "/user": {
+
       "post": {
-        "summary": "Create User",
+
         "tags": ["Users"],
 
-        "requestBody": {
-          "required": true,
+        "summary": "Create User",
 
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
+        "description": "Create a new user",
 
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
+        "parameters": [
+          {
+            "in": "body",
 
-                  "email": {
-                    "type": "string"
-                  },
+            "name": "body",
 
-                  "photo": {
-                    "type": "string"
-                  }
-                }
-              }
+            "required": true,
+
+            "schema": {
+              "$ref": "#/definitions/User"
             }
           }
-        },
+        ],
 
         "responses": {
           "200": {
@@ -63,67 +88,67 @@
       },
 
       "get": {
-        "summary": "Get User By Email",
+
         "tags": ["Users"],
+
+        "summary": "Get User By Email",
 
         "parameters": [
           {
-            "in": "query",
             "name": "email",
-            "schema": {
-              "type": "string"
-            },
+
+            "in": "query",
 
             "required": true,
 
-            "description": "User email"
+            "type": "string"
           }
         ],
 
         "responses": {
           "200": {
-            "description": "User fetched successfully"
+            "description": "User fetched successfully",
+
+            "schema": {
+              "type": "array",
+
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
           }
         }
       },
 
       "patch": {
-        "summary": "Update User",
+
         "tags": ["Users"],
+
+        "summary": "Update User",
 
         "parameters": [
           {
-            "in": "query",
             "name": "email",
+
+            "in": "query",
+
+            "required": true,
+
+            "type": "string"
+          },
+
+          {
+            "in": "body",
+
+            "name": "body",
+
+            "required": true,
+
             "schema": {
-              "type": "string"
-            },
-
-            "required": true
-          }
-        ],
-
-        "requestBody": {
-          "required": true,
-
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-
-                  "photo": {
-                    "type": "string"
-                  }
-                }
-              }
+              "$ref": "#/definitions/UserUpdate"
             }
           }
-        },
+        ],
 
         "responses": {
           "200": {
@@ -134,67 +159,79 @@
     },
 
     "/user/{id}": {
+
       "get": {
-        "summary": "Get User By ID",
+
         "tags": ["Users"],
+
+        "summary": "Get User By ID",
 
         "parameters": [
           {
-            "in": "path",
             "name": "id",
+
+            "in": "path",
+
             "required": true,
 
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
 
         "responses": {
           "200": {
-            "description": "Single user fetched"
+            "description": "Single user fetched",
+
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           }
         }
       }
     },
 
     "/allVehicles": {
+
       "get": {
-        "summary": "Get All Vehicles",
+
         "tags": ["Vehicles"],
+
+        "summary": "Get All Vehicles",
 
         "responses": {
           "200": {
-            "description": "Vehicles fetched successfully"
+            "description": "Vehicles fetched successfully",
+
+            "schema": {
+              "type": "array",
+
+              "items": {
+                "$ref": "#/definitions/Vehicle"
+              }
+            }
           }
         }
       },
 
       "post": {
-        "summary": "Add Vehicle",
+
         "tags": ["Vehicles"],
 
-        "requestBody": {
-          "required": true,
+        "summary": "Add Vehicle",
 
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
+        "parameters": [
+          {
+            "in": "body",
 
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
+            "name": "body",
 
-                  "price": {
-                    "type": "number"
-                  }
-                }
-              }
+            "required": true,
+
+            "schema": {
+              "$ref": "#/definitions/Vehicle"
             }
           }
-        },
+        ],
 
         "responses": {
           "200": {
@@ -205,72 +242,245 @@
     },
 
     "/allVehicles/{id}": {
+
       "get": {
-        "summary": "Get Vehicle By ID",
+
         "tags": ["Vehicles"],
+
+        "summary": "Get Vehicle By ID",
 
         "parameters": [
           {
-            "in": "path",
             "name": "id",
+
+            "in": "path",
+
             "required": true,
 
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
 
         "responses": {
           "200": {
-            "description": "Single vehicle fetched"
+            "description": "Vehicle fetched successfully",
+
+            "schema": {
+              "$ref": "#/definitions/Vehicle"
+            }
           }
         }
       },
 
       "put": {
-        "summary": "Update Vehicle",
+
         "tags": ["Vehicles"],
+
+        "summary": "Update Vehicle",
 
         "parameters": [
           {
-            "in": "path",
             "name": "id",
+
+            "in": "path",
+
+            "required": true,
+
+            "type": "string"
+          },
+
+          {
+            "in": "body",
+
+            "name": "body",
+
             "required": true,
 
             "schema": {
-              "type": "string"
+              "$ref": "#/definitions/Vehicle"
             }
           }
         ],
 
         "responses": {
           "200": {
-            "description": "Vehicle updated"
+            "description": "Vehicle updated successfully"
           }
         }
       },
 
       "delete": {
-        "summary": "Delete Vehicle",
+
         "tags": ["Vehicles"],
+
+        "summary": "Delete Vehicle",
 
         "parameters": [
           {
-            "in": "path",
             "name": "id",
+
+            "in": "path",
+
+            "required": true,
+
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Vehicle deleted successfully"
+          }
+        }
+      }
+    },
+
+    "/bookNow": {
+
+      "post": {
+
+        "tags": ["Bookings"],
+
+        "summary": "Book Vehicle",
+
+        "parameters": [
+          {
+            "in": "body",
+
+            "name": "body",
+
             "required": true,
 
             "schema": {
-              "type": "string"
+              "$ref": "#/definitions/Booking"
             }
           }
         ],
 
         "responses": {
           "200": {
-            "description": "Vehicle deleted"
+            "description": "Booking successful"
           }
+        }
+      },
+
+      "get": {
+
+        "tags": ["Bookings"],
+
+        "summary": "Get User Bookings",
+
+        "parameters": [
+          {
+            "name": "email",
+
+            "in": "query",
+
+            "required": true,
+
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Bookings fetched successfully"
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+
+    "User": {
+
+      "type": "object",
+
+      "properties": {
+
+        "name": {
+          "type": "string"
+        },
+
+        "email": {
+          "type": "string"
+        },
+
+        "photo": {
+          "type": "string"
+        },
+
+        "createdAt": {
+          "type": "string"
+        }
+      }
+    },
+
+    "UserUpdate": {
+
+      "type": "object",
+
+      "properties": {
+
+        "name": {
+          "type": "string"
+        },
+
+        "photo": {
+          "type": "string"
+        }
+      }
+    },
+
+    "Vehicle": {
+
+      "type": "object",
+
+      "properties": {
+
+        "name": {
+          "type": "string"
+        },
+
+        "price": {
+          "type": "number"
+        },
+
+        "image": {
+          "type": "string"
+        },
+
+        "location": {
+          "type": "string"
+        },
+
+        "description": {
+          "type": "string"
+        },
+
+        "createdAt": {
+          "type": "string"
+        }
+      }
+    },
+
+    "Booking": {
+
+      "type": "object",
+
+      "properties": {
+
+        "vehicleName": {
+          "type": "string"
+        },
+
+        "bookerEmail": {
+          "type": "string"
+        },
+
+        "bookingDate": {
+          "type": "string"
         }
       }
     }
