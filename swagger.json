@@ -1,0 +1,278 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Travel Ease API",
+    "version": "1.0.0",
+    "description": "Travel Ease Backend API Documentation"
+  },
+
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Home Route",
+        "responses": {
+          "200": {
+            "description": "Server running successfully"
+          }
+        }
+      }
+    },
+
+    "/user": {
+      "post": {
+        "summary": "Create User",
+        "tags": ["Users"],
+
+        "requestBody": {
+          "required": true,
+
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+
+                  "email": {
+                    "type": "string"
+                  },
+
+                  "photo": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "User created successfully"
+          }
+        }
+      },
+
+      "get": {
+        "summary": "Get User By Email",
+        "tags": ["Users"],
+
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "schema": {
+              "type": "string"
+            },
+
+            "required": true,
+
+            "description": "User email"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "User fetched successfully"
+          }
+        }
+      },
+
+      "patch": {
+        "summary": "Update User",
+        "tags": ["Users"],
+
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "schema": {
+              "type": "string"
+            },
+
+            "required": true
+          }
+        ],
+
+        "requestBody": {
+          "required": true,
+
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+
+                  "photo": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          }
+        }
+      }
+    },
+
+    "/user/{id}": {
+      "get": {
+        "summary": "Get User By ID",
+        "tags": ["Users"],
+
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Single user fetched"
+          }
+        }
+      }
+    },
+
+    "/allVehicles": {
+      "get": {
+        "summary": "Get All Vehicles",
+        "tags": ["Vehicles"],
+
+        "responses": {
+          "200": {
+            "description": "Vehicles fetched successfully"
+          }
+        }
+      },
+
+      "post": {
+        "summary": "Add Vehicle",
+        "tags": ["Vehicles"],
+
+        "requestBody": {
+          "required": true,
+
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+
+                  "price": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Vehicle added successfully"
+          }
+        }
+      }
+    },
+
+    "/allVehicles/{id}": {
+      "get": {
+        "summary": "Get Vehicle By ID",
+        "tags": ["Vehicles"],
+
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Single vehicle fetched"
+          }
+        }
+      },
+
+      "put": {
+        "summary": "Update Vehicle",
+        "tags": ["Vehicles"],
+
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Vehicle updated"
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Delete Vehicle",
+        "tags": ["Vehicles"],
+
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Vehicle deleted"
+          }
+        }
+      }
+    }
+  }
+}
